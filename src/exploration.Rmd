@@ -21,3 +21,60 @@ Load project with ProjectTemplate.
 require(ProjectTemplate)
 reload.project()
 ```
+
+Exploring
+---------
+
+Summary of all datatable, to explore candidate variables.
+```{r gss_summary, warning=FALSE}
+# summary(gss)
+```
+
+### First candidate analysis: Labor force status and Sex
+
+Labor force status statistics.
+```{r wrkstat, warning=FALSE}
+wrkstat_t = table(gss$wrkstat, useNA="ifany")
+wrkstat_t
+par(mar = c(8, 4, 4, 2) + 0.1)
+barplot(wrkstat_t, las=2, main="Labor force status")
+```
+
+Sex statistics.
+```{r sex, warning=FALSE}
+sex_t = table(gss$sex, useNA="ifany")
+sex_t
+par(mar = c(5, 4, 4, 2) + 0.1)
+barplot(sex_t, las=2, main="Sex")
+```
+
+Labor force status and Sex.
+```{r wrkstat_sex, warning=FALSE}
+wrkstat_sex_t = table(gss$sex, gss$wrkstat, useNA="ifany")
+wrkstat_sex_t
+par(mar = c(5, 4, 4, 2) + 0.1)
+mosaicplot(wrkstat_sex_t, las=2, main="Labor force status and Sex")
+```
+
+### Second candidate analysis: Highest degree and Income in constant dollar
+
+Highest degree statistics.
+```{r degree, warning=FALSE}
+degree_t = table(gss$degree, useNA="ifany")
+degree_t
+par(mar = c(8, 4, 4, 2) + 0.1)
+barplot(degree_t, las=2, main="Highest degree")
+```
+
+Total family income in constant dollars.
+```{r coninc, warning=FALSE}
+summary(gss$coninc)
+par(mar = c(5, 4, 4, 2) + 0.1)
+hist(gss$coninc, main="Total family income in constant dollars")
+```
+
+Total family income in constant dollars by Degree.
+```{r degree_coninc, warning=FALSE}
+par(mar = c(8, 4, 4, 2) + 0.1)
+boxplot(gss$coninc ~ gss$degree, las= 2, main="Total family income in constant dollars by Degree")
+```
