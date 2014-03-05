@@ -66,15 +66,15 @@ par(mar = c(8, 4, 4, 2) + 0.1)
 barplot(degree_t, las=2, main="Highest degree")
 ```
 
-Total family income in constant dollars.
+Family income in constant dollars.
 ```{r coninc, warning=FALSE}
 summary(gss$coninc)
 par(mar = c(5, 4, 4, 2) + 0.1)
-hist(gss$coninc, main="Total family income in constant dollars")
+hist(gss$coninc, main="Family income in constant dollars")
 ```
 
-Total family income in constant dollars by Degree.
+Family income in constant dollars by Degree.
 ```{r degree_coninc, warning=FALSE}
 par(mar = c(8, 4, 4, 2) + 0.1)
-boxplot(gss$coninc ~ gss$degree, las= 2, main="Total family income in constant dollars by Degree")
+boxplot(gss$coninc ~ gss$degree, las= 2, main="Family income in constant dollars by Degree")
 ```

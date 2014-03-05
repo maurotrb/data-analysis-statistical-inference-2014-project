@@ -13,6 +13,7 @@ In one sentence, what is your research question?
 Do you understand the research question? How can the question be made clearer? Is it clear how data can be used to answer this research question as its phrased?
 
 ### Answer
+Is there a relationship between degree obtained and family income in constant dollars?
 
 Data - Citation
 ---------------
@@ -65,6 +66,15 @@ What are the two variables you will be studying? State the type of each variable
 Are the variable types identified accurately?
 
 ### Answer
+
+#### Degree
+If finished 9th-12th grade: Did you ever get a high school diploma or a GED certificate?
+Type of variable: categorical, ordinal.
+Levels: Lt High School, High School, Junior College, Bachelor, Graduate
+
+#### Family Income in Constant Dollars
+Inflation-adjusted family income.
+Type of variable: numerical, continuous.
 
 Data - Type of study
 --------------------
