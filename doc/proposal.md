@@ -27,6 +27,17 @@ Include a citation for your data, and if your data set is online, provide a link
 Is there a citation for the data? If there is a link provided, does it bring you to the data?
 
 ### Answer
+General Social Survey Cumulative File, 1972-2012 Coursera Extract.
+Modified for Data Analysis and Statistical Inference course (Duke University).
+
+R dataset could be downloaded at `http://bit.ly/dasi_gss_data`.
+
+Citation for the original data:
+
+    Smith, Tom W., Michael Hout, and Peter V. Marsden. General Social Survey, 1972-2012 [Cumulative File]. ICPSR34802-v1.
+    Storrs, CT: Roper Center for Public Opinion Research, University of Connecticut /Ann Arbor, MI: Inter-university Consortium
+    for Political and Social Research [distributors], 2013-09-11. doi:10.3886/ICPSR34802.v1
+    Persistent URL: http://doi.org/10.3886/ICPSR34802.v1
 
 Data - Collection
 -----------------
@@ -40,6 +51,7 @@ Describe how the data were collected.
 Is the data collection explained clearly?
 
 ### Answer
+
 
 Data - Cases (observational/experimental units)
 -----------------------------------------------
@@ -103,6 +115,8 @@ Also discuss any potential sources of bias that might prevent generalizability.
 Did the writer correctly identify the population of interest? Did the writer correctly decide whether the findings from this analysis can be generalized to that population, or, if not, a subsection of that population? Is their explanation satisfactory to make this decision? Are potential sources of bias discussed, and if so, is the discussion satisfactory?
 
 ### Answer
+The population of interest is composed by all USA residents.
+...
 
 Data - Scope of inference - causality
 -------------------------------------
@@ -116,6 +130,7 @@ Can these data be used to establish causal links between the variables of intere
 Did the writer identify correctly whether these data be used to establish causal links between the variables of interest. Is the explanation satisfactory?
 
 ### Answer
+This is an observational study, so we can only establish correlation links and not causal ones between the variables of interest.
 
 Exploratory Data Analysis
 -------------------------
