@@ -22,8 +22,8 @@ require(ProjectTemplate)
 reload.project()
 ```
 
-Exploring
----------
+Exploring to choose proposal
+----------------------------
 
 Summary of all datatable, to explore candidate variables.
 ```{r gss_summary, warning=FALSE}
@@ -77,4 +77,43 @@ Family income in constant dollars by Degree.
 ```{r degree_coninc, warning=FALSE}
 par(mar = c(8, 4, 4, 2) + 0.1)
 boxplot(gss$coninc ~ gss$degree, las= 2, main="Family income in constant dollars by Degree")
+```
+
+Exploring for the proposal
+--------------------------
+
+### Create a dataset with the two variables chosen
+
+Create a dataset with degree and coninc columns, then filter all the NAs.
+Add descriptive columns names.
+```{r proposal_ds, warning=FALSE}
+proposal_ds = gss[,c(12,27)]
+proposal_ds = proposal_ds[complete.cases(proposal_ds),]
+colnames(proposal_ds) <- c("Highest.Degree","Family.Income.Constant.USD")
+dim(proposal_ds)
+head(proposal_ds, n=40L)
+```
+
+### Summary statistics for Highest Degree
+Highest Degree is a categorical variable. Summarize with table and barplot.
+```{r proposal_degree, warning=FALSE}
+degree_table = table(proposal_ds$Highest.Degree)
+degree_table
+par(mar = c(8, 4, 4, 2) + 0.1)
+barplot(degree_table, las=2, main="Highest Degree")
+```
+
+### Summary statistics for Family Income in constant USD
+Family Income is a numerical continuous variable. Summarize with summary and histogram.
+```{r proposal_conint, warning=FALSE}
+summary(proposal_ds$Family.Income.Constant.USD)
+par(mar = c(5, 4, 4, 2) + 0.1)
+hist(proposal_ds$Family.Income.Constant.USD, main="Family Income in constant USD", xlab="USD")
+```
+
+### Are Family Income in constant USD dependent from Highest Degree?
+
+```{r proposal_degree_coninc, warning=FALSE}
+par(mar = c(8, 4, 4, 2) + 0.1)
+boxplot(proposal_ds$Family.Income.Constant.USD ~ proposal_ds$Highest.Degree, las= 2, main="Family Income in constant USD by Degree")
 ```
