@@ -1,6 +1,17 @@
 Data Analysis Project
 =====================
 
+``` {r knitr_options, echo=FALSE, warning=FALSE}
+require(knitr)
+opts_knit$set(root.dir="..")
+opts_chunk$set(fig.path="../graphs/analysis-")
+```
+
+```{r load_project, echo=FALSE, warning=FALSE}
+require(ProjectTemplate)
+reload.project()
+```
+
 Part 1: Introduction
 --------------------
 
