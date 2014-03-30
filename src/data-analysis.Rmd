@@ -1,6 +1,7 @@
 Data Analysis Project
 =====================
 
+Project preparation with ProjectTemplate [[1](#projecttemplate)].
 ``` {r knitr_options, echo=FALSE, warning=FALSE}
 require(knitr)
 opts_knit$set(root.dir="..")
@@ -12,40 +13,120 @@ require(ProjectTemplate)
 reload.project()
 ```
 
-Part 1: Introduction
---------------------
+Introduction
+------------
 
-#### Question
-What is your research question? Why do you care? Why should others care?
+The research focus is on the relationship between the degree obtained by US
+residents and their family income in constant dollars.
 
-#### Evaluation
-Is there a well-defined and clearly stated research question?
+Access to education and its funding is the subject of many discussions on social
+mobility and redistribution of income. The research explores historical data
+to verify one of main topic of these discussions: if more education is related to
+an higher personal and family income.
 
-Did the author provide background on the research question as to why they care and why others should also care?
+Data
+----
 
-Part 2:  Data
--------------
+### General Social Survey (GSS)
 
-#### Question
-Write about the data from your proposal in text (not bullet-point) form. Address these points:
+The research uses data from the General Social Survey (GSS) which has been monitoring
+change in American society since 1972. Until 1994, it was conducted almost annually.
+Since 1994, the GSS has been conducted in even numbered years.
 
-* Data collection: Describe how the data were collected.
-* Cases: What are the cases? (Remember: case = units of observation or units of experiment)
-* Variables: What are the two variables you will be studying? State the type of each variable.
-* Study: What is the type of study? Is it an observational study or an experiment? Explain how you've arrived at your conclusion using information on the sampling and/or experimental design.
-* Scope of inference - generalizability: Identify the population of interest, and whether the findings from this analysis can be generalized to that population, or, if not, a subsection of that population. Explain why or why not. Also discuss any potential sources of bias that might prevent generalizability.
-* Scope of inference - causality: Can these data be used to establish causal links between the variables of interest? Explain why or why not.
+The vast majority of GSS data is obtained in face-to-face interviews, computer-assisted
+personal interviewing (since 2002), and by telephone.
 
-#### Evaluation
-* Data collection: Is the data collection explained clearly?
-* Cases: Are the cases (the units of observation or experimental units) explained clearly?
-* Variables: Are the variable types identified accurately?
-* Study: Is the type of study identified correctly? Is the supporting information on the sampling and/or experimental design of the study satisfactory for making the decision on the type of study?
-* Scope of inference - generalizability: Did the writer correctly identify the population of interest? Did the writer correctly decide whether the findings from this analysis can be generalized to that population, or, if not, a subsection of that population? Is their explanation satisfactory to make this decision? Are potential sources of bias discussed, and if so, is the discussion satisfactory?
-* Scope of inference - causality: Did the writer identify correctly whether these data can be used to establish causal links between the variables of interest. Is the explanation satisfactory?
+The interviewees are individuals English and Spanish speaking persons 18 years of
+age or older, living in the United States. They are selected from metropolitan and
+rural areas. Multiple level of stratification for region, race, age, income and
+sex was employed to garantee a random sample.
 
-Part 3: Exploratory Data Analysis
----------------------------------
+The target sample size is of 1500 cases every year until 1994. Since 1994 the GSS
+has been administered to two samples in even-numbered years, each with a target
+sample size of 1500.
+
+For more information please refer to GSS FAQ [[2](#gssfaq)].
+
+### Research type
+
+Since the data come from a survey and not from an experiment, the research can
+be classified as **observational** and it can establish only a relation between
+the variables studied and not a causal link.
+
+However the research's findings could be **generalized** to the entire United States
+population because the survey uses random sampling techniques.
+
+### Variables
+
+The research uses two variables chosen from those collected by GSS survey:
+
+* **Highest Degree**: it is a ordinal categorical variable collected with the question
+  "Did you ever get a high school diploma or a GED certificate?"; its levels are
+  Lt High School, High School, Junior College, Bachelor, Graduate
+* **Family Income in Constant Dollars**: it is a continuous numerical variable
+  and it measure the inflation-adjusted family income
+
+Exploratory data analysis
+-------------------------
+
+### Data preparation
+
+Before exploring the data we create a dataset with the two variables of interest
+plus the year, then we filter out the cases with missing values, and finally we
+give a clearer description to the columns.
+```{r research_data, warning=FALSE}
+research_data = gss[,c(2,12,27)]
+research_data = research_data[complete.cases(research_data),]
+colnames(research_data) <- c("Year","Highest.Degree","Family.Income.Constant.USD")
+```
+
+### Distribution by year and missing values
+
+The cases in the original data are 57061, evenly distributed by year until 1993,
+and then distributed every two years since 1994.
+```{r nrow_gss, warning=FALSE}
+nrow(gss)
+table(gss$year)
+```
+
+The cases in the research data are 50393, with a distribution similar to that
+of the original data.
+```{r nrow_research_data, warning=FALSE}
+nrow(research_data)
+table(research_data$Year)
+```
+
+We can conclude that filtering out the missing values has not changed the distribution
+of the sample data.
+
+### Summary statistics for Highest Degree
+
+Highest Degree is a categorical variable. We summarize it with a frequency table
+and a barplot.
+```{r highest_degree_summary, warning=FALSE}
+prop.table(table(research_data$Highest.Degree))
+par(mar = c(8, 4, 4, 2) + 0.1)
+barplot(table(research_data$Highest.Degree), las=2, main="Highest Degree")
+```
+
+### Summary statistics for Family Income in constant USD
+
+Family Income is a continuous numerical variable. We summarize it with mean,
+range and quartiles, and with a histogram.
+```{r proposal_conint, warning=FALSE}
+summary(research_data$Family.Income.Constant.USD)
+par(mar = c(5, 4, 4, 2) + 0.1)
+hist(research_data$Family.Income.Constant.USD, main="Family Income in constant USD", xlab="USD")
+```
+
+### Are Family Income in constant USD dependent from Highest Degree?
+
+```{r proposal_degree_coninc, warning=FALSE}
+par(mar = c(8, 4, 4, 2) + 0.1)
+boxplot(research_data$Family.Income.Constant.USD ~ research_data$Highest.Degree, las= 2, main="Family Income in constant USD by Degree")
+```
+
+From 1972 until 1993, the GSS was administered almost annually. The target sample size for the annual surveys was 1500; actual sample sizes ranged between 1372 (1990) and 1613 (1972). Additionally, there were oversamples of black respondents in 1982 (oversample of 354) and 1987 (oversample of 353). There were no GSSs in 1979, 1981, or 1992.
 
 #### Question
 Calculate and discuss relevant descriptive statistics, including summary statistics and visualizations of the data. Also address what the exploratory data analysis suggests about your research question.
@@ -57,8 +138,8 @@ Are appropriate visualizations included, and are they explained/interpreted in c
 
 Did the writer address what the findings from the exploratory analysis suggests about the research question?
 
-Part 4: Inference
------------------
+Inference
+---------
 
 #### Question
 * State hypotheses
@@ -105,8 +186,8 @@ depending on the methods used. All interpretations must be in context of the dat
 
 Is whether or not results from hypothesis test and confidence interval agree stated? Or, if doing ANOVA or chi-square testing, did the author state that no other methods were applicable and hence there's nothing to compare?
 
-Part 5: Conclusion
-------------------
+Conclusion
+----------
 
 #### Question
 Write a brief summary of your findings without repeating your statements from earlier. Include a discussion of what you have learned about your research question and the data you collected, and include ideas for possible future research.
@@ -121,17 +202,35 @@ Are ideas for possible future research and/or discussion of additional synthesis
 References
 ----------
 
-#### Question
-Include a citation for your data, and if your data set is online, provide a link to the source. Also list other references (if any). Please upload your file containing all of your responses here.
+### Data reference
 
-#### Evaluation
-Are references included?
+General Social Survey Cumulative File, 1972-2012 Coursera Extract.
+Modified for Data Analysis and Statistical Inference course (Duke University).
+
+R dataset could be downloaded at http://bit.ly/dasi_gss_data.
+
+Original data:
+
+Smith, Tom W., Michael Hout, and Peter V. Marsden. General Social Survey, 1972-2012
+[Cumulative File]. ICPSR34802-v1. Storrs, CT: Roper Center for Public Opinion Research,
+University of Connecticut /Ann Arbor, MI: Inter-university Consortium for Political
+and Social Research [distributors], 2013-09-11. doi:10.3886/ICPSR34802.v1
+
+Persistent URL: http://doi.org/10.3886/ICPSR34802.v1
+
+### Other references
+
+1. <a name="projecttemplate"/>ProjectTemplate, a system for automating the thoughtless
+   parts of a data analysis project. URL: <http://projecttemplate.net/>.
+2. <a name="gssfaq"/>General Social Survey (GSS) FAQ.
+   URL: <http://publicdata.norc.org:41000/gssbeta/faqs.html>.
+   Accessed 03/30/2014
 
 Appendix
 --------
 
-#### Question
-Take 1 page of your data set and attach it to your proposal. If your data fits in one page, great. If you have too many observations and it won’t fit, that’s ok too, just crop it at one page. However your print out should contain all relevant columns (this shouldn’t be an issue since you are working with one or two variables for your project).
+Example of the data used in the research.
 
-#### Evaluation
-Is there an appendix containing one page of data, and does it display the variables used in the project?
+```{r research_data_head, warning=FALSE}
+head(research_data, n=40L)
+```
