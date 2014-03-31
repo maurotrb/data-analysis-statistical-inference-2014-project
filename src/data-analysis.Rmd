@@ -109,37 +109,63 @@ par(mar = c(8, 4, 4, 2) + 0.1)
 barplot(table(research_data$Highest.Degree), las=2, main="Highest Degree")
 ```
 
+We can see that High School is prevalent with more than 70% of the cases,
+while the remaining 30% has some kind of college degree.
+
 ### Summary statistics for Family Income in constant USD
 
 Family Income is a continuous numerical variable. We summarize it with mean,
 range and quartiles, and with a histogram.
-```{r proposal_conint, warning=FALSE}
+```{r family_income_summary, warning=FALSE}
 summary(research_data$Family.Income.Constant.USD)
 par(mar = c(5, 4, 4, 2) + 0.1)
 hist(research_data$Family.Income.Constant.USD, main="Family Income in constant USD", xlab="USD")
 ```
 
-### Are Family Income in constant USD dependent from Highest Degree?
+We can see that the distribution is right skewed and unimodal. 50% of
+the cases are in the 18,500-59,500 USD (constant dollar) range.
 
-```{r proposal_degree_coninc, warning=FALSE}
+### Relationship among Family Income and Highest Degree
+
+Finally, we explore the relationship among Family Income and Highest Degree.
+
+```{r income_degree_rel, warning=FALSE}
 par(mar = c(8, 4, 4, 2) + 0.1)
 boxplot(research_data$Family.Income.Constant.USD ~ research_data$Highest.Degree, las= 2, main="Family Income in constant USD by Degree")
 ```
 
-From 1972 until 1993, the GSS was administered almost annually. The target sample size for the annual surveys was 1500; actual sample sizes ranged between 1372 (1990) and 1613 (1972). Additionally, there were oversamples of black respondents in 1982 (oversample of 354) and 1987 (oversample of 353). There were no GSSs in 1979, 1981, or 1992.
-
-#### Question
-Calculate and discuss relevant descriptive statistics, including summary statistics and visualizations of the data. Also address what the exploratory data analysis suggests about your research question.
-
-#### Evaluation
-Are appropriate summary statistics calculated, and are they explained/interpreted in context of the data and the research question?
-
-Are appropriate visualizations included, and are they explained/interpreted in context of the data and the research question?
-
-Did the writer address what the findings from the exploratory analysis suggests about the research question?
+We can see that exists a positive association between Family Income and Higher Degree.
+But the wider interquantile range in the college degree categories and the higher
+number of outliers in the high school degree ones, means that such a relationship is
+not strong and that Family Income could be associated with other variables.
 
 Inference
 ---------
+
+Ho = the mean income is equal for all Higher Degree levels
+Ha = the mean income is different for at least two Higher Degree levels
+
+Condition
+
+* indipendence: the data are random samples from less than 10% of the population
+  and so they could be considered indipendent
+* approximately normal:
+
+```{r qqplot_degree, warning=FALSE, fig.width=11, fig.height=2.5}
+par(mfrow = c(1,5))
+degrees = c("Lt High School","High School","Junior College","Bachelor","Graduate")
+for (i in 1:5) {
+  qqnorm(research_data[research_data$Highest.Degree == degrees[i],]$Family.Income.Constant.USD, main=degrees[i])
+}
+```
+
+* constant variance:
+
+Anova and pairwise tests
+
+```{r anova, warning=FALSE}
+anova(lm(Family.Income.Constant.USD ~ Highest.Degree, data=research_data))
+```
 
 #### Question
 * State hypotheses
