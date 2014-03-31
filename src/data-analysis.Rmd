@@ -27,11 +27,13 @@ an higher personal and family income.
 Data
 ----
 
+The research uses General Social Survey (GSS) data for the year 2012.
+
 ### General Social Survey (GSS)
 
-The research uses data from the General Social Survey (GSS) which has been monitoring
-change in American society since 1972. Until 1994, it was conducted almost annually.
-Since 1994, the GSS has been conducted in even numbered years.
+The General Social Survey (GSS) has been monitoring change in American society
+since 1972. Until 1994, it was conducted almost annually. Since 1994, the GSS has
+been conducted in even numbered years.
 
 The vast majority of GSS data is obtained in face-to-face interviews, computer-assisted
 personal interviewing (since 2002), and by telephone.
@@ -72,71 +74,59 @@ Exploratory data analysis
 ### Data preparation
 
 Before exploring the data we create a dataset with the two variables of interest
-plus the year, then we filter out the cases with missing values, and finally we
-give a clearer description to the columns.
+for the year 2012 and we give a clearer description to the columns.
+
 ```{r research_data, warning=FALSE}
-research_data = gss[,c(2,12,27)]
-research_data = research_data[complete.cases(research_data),]
-colnames(research_data) <- c("Year","Highest.Degree","Family.Income.Constant.USD")
-```
-
-### Distribution by year and missing values
-
-The cases in the original data are 57061, evenly distributed by year until 1993,
-and then distributed every two years since 1994.
-```{r nrow_gss, warning=FALSE}
-nrow(gss)
-table(gss$year)
-```
-
-The cases in the research data are 50393, with a distribution similar to that
-of the original data.
-```{r nrow_research_data, warning=FALSE}
+research_data = gss[gss$year == 2012, c(12,27)]
+colnames(research_data) <- c("Highest.Degree","Family.Income.Constant.USD")
 nrow(research_data)
-table(research_data$Year)
 ```
 
-We can conclude that filtering out the missing values has not changed the distribution
-of the sample data.
+We obtain 1974 cases.
 
-### Summary statistics for Highest Degree
+### Summary statistics
 
-Highest Degree is a categorical variable. We summarize it with a frequency table
-and a barplot.
+```{r summary_graphs, warning=FALSE, fig.width=12, fig.height=5}
+par(mfrow = c(1, 3), mar=c(8,4,2,2), oma=c(3,0,1,0))
+barplot(table(research_data$Highest.Degree), las=2, main="Highest Degree")
+par(mar=c(8,1,2,2))
+hist(research_data$Family.Income.Constant.USD, main="Family Income in constant USD", xlab="USD")
+par(mar=c(8,2,2,4))
+boxplot(research_data$Family.Income.Constant.USD ~ research_data$Highest.Degree, las= 2, main="Family Income in constant USD by Degree")
+mtext("Figure 1. Exploratory analysis. Summary graphs.", side=1, line=1, outer=TRUE)
+```
+
+**Highest Degree** is a categorical variable. We summarize it with a frequency table
+and a barplot (see Figure 1).
 ```{r highest_degree_summary, warning=FALSE}
 prop.table(table(research_data$Highest.Degree))
-par(mar = c(8, 4, 4, 2) + 0.1)
-barplot(table(research_data$Highest.Degree), las=2, main="Highest Degree")
 ```
 
-We can see that High School is prevalent with more than 70% of the cases,
-while the remaining 30% has some kind of college degree.
+We can see that High School is prevalent with nearly fifty percent of the cases.
 
-### Summary statistics for Family Income in constant USD
-
-Family Income is a continuous numerical variable. We summarize it with mean,
-range and quartiles, and with a histogram.
+**Family Income** is a continuous numerical variable. We summarize it with mean,
+range and quartiles, and with a histogram (see Figure 1).
 ```{r family_income_summary, warning=FALSE}
 summary(research_data$Family.Income.Constant.USD)
-par(mar = c(5, 4, 4, 2) + 0.1)
-hist(research_data$Family.Income.Constant.USD, main="Family Income in constant USD", xlab="USD")
 ```
 
-We can see that the distribution is right skewed and unimodal. 50% of
-the cases are in the 18,500-59,500 USD (constant dollar) range.
+We can see that the distribution is right skewed and unimodal. Fifty percent of
+the cases are in the 16,300-63,200 USD (constant dollar) range, and there is a
+maximum value of 179,000 USD. There are some clear outliers.
 
-### Relationship among Family Income and Highest Degree
-
-Finally, we explore the relationship among Family Income and Highest Degree.
-
-```{r income_degree_rel, warning=FALSE}
-par(mar = c(8, 4, 4, 2) + 0.1)
-boxplot(research_data$Family.Income.Constant.USD ~ research_data$Highest.Degree, las= 2, main="Family Income in constant USD by Degree")
+There are 216 cases with missing income values. Filtering them out brings the
+number of cases to 1752. The sample size remains significant for the research.
+```{r research_data_comp_cases, warning=FALSE}
+research_data = research_data[complete.cases(research_data),]
+nrow(research_data)
 ```
+
+Finally, we explore the **relationship among Family Income and Highest Degree**
+(see Figure 1).
 
 We can see that exists a positive association between Family Income and Higher Degree.
-But the wider interquantile range in the college degree categories and the higher
-number of outliers in the high school degree ones, means that such a relationship is
+But the wider interquantile range in the college degree categories and the presence
+of outliers in the high school degree ones, means that such a relationship is
 not strong and that Family Income could be associated with other variables.
 
 Inference
