@@ -16,18 +16,18 @@ reload.project()
 Introduction
 ------------
 
-The research focus is on the relationship between the degree obtained by US
-residents and their family income in constant dollars.
+The project study the relationship between the higher degree obtained by United
+States residents and their family income in constant dollars.
 
 Access to education and its funding is the subject of many discussions on social
-mobility and redistribution of income. The research explores historical data
-to verify one of main topic of these discussions: if more education is related to
-an higher personal and family income.
+mobility and redistribution of income. The study explores data from a long running
+social survey to verify one of the main topic of these discussions: if more education
+is related to a higher personal and family income.
 
 Data
 ----
 
-The research uses General Social Survey (GSS) data for the year 2012.
+The study uses General Social Survey (GSS) data for the year 2012.
 
 ### General Social Survey (GSS)
 
@@ -43,27 +43,27 @@ age or older, living in the United States. They are selected from metropolitan a
 rural areas. Multiple level of stratification for region, race, age, income and
 sex was employed to garantee a random sample.
 
-The target sample size is of 1500 cases every year until 1994. Since 1994 the GSS
+The target sample size is of 1500 observations every year until 1994. Since 1994 the GSS
 has been administered to two samples in even-numbered years, each with a target
 sample size of 1500.
 
 For more information please refer to GSS FAQ [[2](#gssfaq)].
 
-### Research type
+### Study characteristics
 
-Since the data come from a survey and not from an experiment, the research can
-be classified as **observational** and it can establish only a relation between
-the variables studied and not a causal link.
+The data come from a survey and not from an experiment, so the study can be
+characterized as **observational**: it can establish only correlation between
+the variables examined and not causation.
 
-However the research's findings could be **generalized** to the entire United States
-population because the survey uses random sampling techniques.
+However, GSS data are random samples taken from US residents, so the study's
+findings could be **generalized** to the entire US residents population.
 
 ### Variables
 
-The research uses two variables chosen from those collected by GSS survey:
+The study uses two variables chosen from those collected by GSS survey:
 
 * **Highest Degree**: it is a ordinal categorical variable collected with the question
-  "Did you ever get a high school diploma or a GED certificate?"; its levels are
+  "Did you ever get a high school diploma or a GED certificate?" -- its levels are
   Lt High School, High School, Junior College, Bachelor, Graduate
 * **Family Income in Constant Dollars**: it is a continuous numerical variable
   and it measure the inflation-adjusted family income
@@ -74,173 +74,174 @@ Exploratory data analysis
 ### Data preparation
 
 Before exploring the data we create a dataset with the two variables of interest
-for the year 2012 and we give a clearer description to the columns.
+for the year 2012 and we give them a clearer label. We obtain a sample size of
+1,974 observations.
 
-```{r research_data, warning=FALSE}
-research_data = gss[gss$year == 2012, c(12,27)]
-colnames(research_data) <- c("Highest.Degree","Family.Income.Constant.USD")
-nrow(research_data)
+```{r study_data, warning=FALSE}
+# Filter Highest.Degree and Family.Income.Constant.USD for 2012
+study_data = gss[gss$year == 2012, c(12,27)]
+# Relabel the two variables
+colnames(study_data) <- c("Highest.Degree","Family.Income.Constant.USD")
+# Count the observations
+nrow(study_data)
 ```
-
-We obtain 1974 cases.
 
 ### Summary statistics
 
-```{r summary_graphs, warning=FALSE, fig.width=12, fig.height=4, fig.cap='Summary statistics'}
-par(mfrow = c(1, 3), mar=c(6,4,3,2))
-barplot(table(research_data$Highest.Degree), las=2, main="Highest Degree")
+```{r summary_graphs, warning=FALSE, fig.width=12, fig.height=4, fig.cap='Summary statistics visualization'}
+# Three graphs in a row
+par(mfrow = c(1, 3))
+# Barplot of Highest.Degree
+par(mar=c(6,4,3,2))
+barplot(table(study_data$Highest.Degree), las=2, main="Highest Degree")
+# Histogram of Family.Income.Constant.USD
 par(mar=c(6,1,3,2))
-hist(research_data$Family.Income.Constant.USD, main="Family Income in constant USD", xlab="USD")
+hist(study_data$Family.Income.Constant.USD, main="Family Income in constant USD", xlab="USD")
+# Boxplot of Family.Income.Constant.USD by Highest.Degree
 par(mar=c(6,2,3,4))
-boxplot(research_data$Family.Income.Constant.USD ~ research_data$Highest.Degree, las= 2, main="Family Income in constant USD by Degree")
+boxplot(study_data$Family.Income.Constant.USD ~ study_data$Highest.Degree, las= 2, main="Family Income in constant USD by Degree")
 ```
 
-**Highest Degree** is a categorical variable. We summarize it with a contingency table,
+**Highest degree** is a categorical variable. We summarize it with a contingency table,
 a frequency table and a barplot (see Figure 1).
 ```{r highest_degree_summary, warning=FALSE}
 # Contingency table for Highest.Degree
-table(research_data$Highest.Degree)
+table(study_data$Highest.Degree)
 # Frequency table for Highest.Degree
-prop.table(table(research_data$Highest.Degree))
+prop.table(table(study_data$Highest.Degree))
 ```
 
-We can see that High School is prevalent with nearly fifty percent of the cases.
+We can see that high school degree is prevalent with nearly 50% percent of observations.
 
-**Family Income** is a continuous numerical variable. We summarize it with mean,
-range and quartiles, and with a histogram (see Figure 1).
+**Family income in constant USD** is a continuous numerical variable. We summarize
+it with mean, range and quartiles, and with a histogram (see Figure 1).
 ```{r family_income_summary, warning=FALSE}
-summary(research_data$Family.Income.Constant.USD)
+# Mean, range and quartiles for Family.Income.Constant.USD
+summary(study_data$Family.Income.Constant.USD)
 ```
 
-We can see that the distribution is right skewed and unimodal. Fifty percent of
-the cases are in the 16,300-63,200 USD (constant dollar) range, and there is a
-maximum value of 179,000 USD. There are some clear outliers.
+We can see that the distribution is right skewed and unimodal, with 50% of observations
+in the 16,300-63,200 USD (constant dollar) range, and there is a maximum value
+of 179,000 USD. There are some clear outliers in the upper range of the
+distribution.
 
-There are 216 cases with missing income values. Filtering them out brings the
-number of cases to 1752. The sample size remains significant for the research.
-```{r research_data_comp_cases, warning=FALSE}
-research_data = research_data[complete.cases(research_data),]
-nrow(research_data)
+Moreover, there are 216 observations with missing income values. Filtering them out brings
+the number of observations to 1752. The sample size remains significant for the study.
+```{r study_data_comp_observations, warning=FALSE}
+# Filter NAs
+study_data = study_data[complete.cases(study_data),]
+# Count observations after the filter
+nrow(study_data)
+# Contingency table for Highest.Degree after the filter
+table(study_data$Highest.Degree)
 ```
 
-Finally, we explore the **relationship among Family Income and Highest Degree**
+Finally, we explore the **relationship among family income and highest degree**
 (see Figure 1).
 
-We can see that exists a positive association between Family Income and Higher Degree.
+We can see that exists a positive association between family income and higher degree.
 But the wider interquantile range in the college degree categories and the presence
 of outliers in the high school degree ones, means that such a relationship is
-not strong and that Family Income could be associated with other variables.
+not strong and that family income could be associated with other variables.
 
 Inference
 ---------
 
-### Hypotheses
+The study want to establish if there is a statistical significant difference
+between the mean income in constant dollars of family of United States resident,
+when they have a different degree.
 
-The research tests the hypotheses that there is a statistical significant
-difference between the mean income of persons with different degree.
+Stated more precisely, we formulate a null hypoteses ($H_{0}$) that the mean
+family income in constant dollars is equal for all the degree groups, and an
+alternative hypotheses ($H_{A}$) that at least one pair of means are different
+from each other.
 
-### Methods
+$H_{0}: \mu_{LHS} = \mu_{HS} = \mu_{JC} = \mu_{B} = \mu_{G}$
 
-We want to compare means across many groups.
-Doing pairwise comparison is treacherous. If we have many groups and do many
-comparisons, it is likely that we will eventualy find a difference just by
-chance, even if there is no difference in the populations.
+$H_{A}: the\ average\ income\ in\ constant\ dollar\ (\mu_{i})\ varies\ across\ some\ (or\ all)\ groups$
 
-A method called **analysis of variance** (ANOVA) that uses a single hypotheses
-test to check whether the mean across many groups are equal.
+### ANOVA and its conditions
 
-ANOVA answer to the question: is the variability in the sample means so large
-that it seems unlikely to be from chance alone?
+We could do a pairwise comparison to compare mean across many groups. But we could
+find a difference just by chance, even if there is no difference in the populations.
 
-ANOVA uses a test statistic F, which represents a standardized ratio of variability
-in the sample means relative to the variability within the group.
-The larger the observed variability in the sample means relative to the
-within group observations, the larger the F will be and the stronger the
+So we employ a method called **analysis of variance** (ANOVA) that uses a single
+hypotheses test to check whether the mean across many groups are equal.
+
+ANOVA finds if the variability in the sample means is so large that it seems
+unlikely to be from chance alone. ANOVA uses a test statistic F, which represents
+a standardized ratio of variability in the sample means relative to the variability
+within the group. The larger the observed variability in the sample means relative
+to the within group observations, the larger the F will be and the stronger the
 evidence against the null hypotheses.
 
-We can use the F statistics to evaluate the hypotheses in what is called an F
-test. A p-value can be computed from the F statistic using an F distribution.
+If we can reject the null hypotheses, we could do a pairwise comparison to find
+out which of the groups have different means.
 
-With ANOVA we formulate a null hypoteses ($H_{0}$) that the mean
-*Family income in constant USD* is equal for all the *Highest degree*
-($H_{0}: \mu_{LHS} = \mu_{HS} = \mu_{JC} = \mu_{B} = \mu_{G}$) and an alternative
-hypotheses ($H_{A}$) that at least one pair of means are different from each other.
-
-Anova and pairwise tests
-
-### Conditions
-
-* indipendence: the data are random samples from less than 10% of the population
-  and so they could be considered indipendent
-* approximately normal:
-
-```{r qqplot_degree, warning=FALSE, fig.width=11, fig.height=2.5, fig.cap='Check data normality in Family.Income.Constant.USD distribution, categorized by Highest.Degree'}
+```{r qqplot_degree, warning=FALSE, fig.width=11, fig.height=2.5, fig.cap='Check data normality in family income grouped by degree'}
+# Five graphs in a row
 par(mfrow = c(1,5))
+# Iterate on the groups and graph a QQ plot to test normality
 degrees = c("Lt High School","High School","Junior College","Bachelor","Graduate")
 for (i in 1:5) {
-  qqnorm(research_data[research_data$Highest.Degree == degrees[i],]$Family.Income.Constant.USD, main=degrees[i])
-  qqline(research_data[research_data$Highest.Degree == degrees[i],]$Family.Income.Constant.USD)
+  qqnorm(study_data[study_data$Highest.Degree == degrees[i],]$Family.Income.Constant.USD, main=degrees[i])
+  qqline(study_data[study_data$Highest.Degree == degrees[i],]$Family.Income.Constant.USD)
 }
 ```
 
-* constant variance:
+Before performing ANOVA we must check three conditions on the data:
+
+* **indipendence**: *Are data indipendent?* -- the data consist in a random sample
+  from less than 10% of the population and so they could be considered indipendent
+* **approximately normal**: *Have data a normal distribution?* -- the normal
+  probability plot for each group are shown in Figure 2; there is some deviation
+  from normality especially in the upper quartiles
+* **constant variance**: *Is the variability across group about equal?* -- we can
+  check the variability with the boxplot in Figure 1; we can see that the variability
+  is not similar across groups with the Lt High School with the lower variability
+  and Graduate with the highest
+
+The conditions on normality and constant variance are not fully respected.
+We compute ANOVA nonetheless, but we report this uncertainty in the results.
 
 ### Inference computation
 
 ```{r anova, warning=FALSE}
-anova(lm(Family.Income.Constant.USD ~ Highest.Degree, data=research_data))
+# ANOVA for the mean income in constanst dollars grouped by degree
+anova(lm(Family.Income.Constant.USD ~ Highest.Degree, data=study_data))
 ```
+
+ANOVA reports a F test statistic of 121 and a p-value of approximately zero.
+This mean that the probability of observing a F of 121 or higher, if the null
+hypotheses were true, is very low.
+So we can reject the null hypotheses and we can say that the average income
+in constant dollar varies across some (or all) groups of degree in a statistically
+significant way.
+
+Now we can do a pairwise comparison to find out which groups have different means.
+
+For every possible pair of groups (10 pairs), we use a t test statistic to
+confirm or reject the null hypotheses that the means of the two groups are equal 
+($H_{0}: \mu_{Group1} = \mu_{Group2}$) or the alternative hypoteses that they are
+different ($H_{A}: \mu_{Group1} \neq \mu_{Group2}$). The significance level
+used is more stringent to avoid the increase of Type I error rate (rejecting
+a true null hypotheses). This mean that to reject a null hypotheses the p-value
+has to be much lower.
 
 ```{r pairwise, warning=FALSE}
-pairwise.t.test(research_data$Family.Income.Constant.USD, research_data$Highest.Degree,  p.adj="bonferroni")
+# Pairwise t test for the mean income in constanst dollars grouped by degree
+# With Bonferroni correction
+pairwise.t.test(study_data$Family.Income.Constant.USD, study_data$Highest.Degree,  p.adj="bonferroni")
 ```
 
-### Results
+We can see tha for nine group pairs the p-value is lower than the significance
+level and so the null hypothese is rejected: the difference of their means is
+statistically significant.
 
-#### Question
-* State hypotheses
-* Check conditions
-* State the method(s) to be used and why and how
-* Perform inference
-* Interpret results
-* If applicable, state whether results from various methods agree
-
-It is your responsibility to figure out the appropriate methodology. What techniques you use to conduct inference will depend on the type of data you're using, and your sample size. All of you should conduct at least a hypothesis test, and report the associated p-value and the conclusion. Those of you comparing two means, two medians, or two proportions should also calculate a confidence interval for the parameter of interest. Those of you working with categorical variables with more than two levels will need to use methods like ANOVA and chi-square testing for which there is no associated confidence interval, and that's ok. If your data fails some conditions and you can't use a theoretical method, then you should use an appropriate simulation based method. 
-
-* If you can use both theoretical and simulation based methods, then choose one and stick with it. You don't have to do both. However if you can't use both, then you need to decide which is appropriate.
-* If you can do both a hypothesis test and a confidence interval, do both, and comment on agreement of the results from the two methods. However if your variables do not lend themselves to a confidence interval, that's ok.
-* It's essential to make sure the method you're using is appropriate for the dataset and the research question you're working with.
-
-#### Evaluation
-Are the hypothesis is stated clearly and matches the research question?
-
-Are the conditions checked in context of the data (not just a generic bullet point list of the conditions, but reasoning through them for the given dataset)?
-
-Are the appropriate method(s) the writer will be using stated? Did the author provide a discussion of why they chose these methods, and described how they work? Note that in this part the author should display a thorough and conceptual understanding of how the methodology works, however the write-up does not need to be as detailed as if they were teaching the method to someone with no background in statistics.
-
-Was the correct code used and output provided for all required techniques? See below for which situation requires which technique:
-
-* One numerical and one categorical variable (with only 2 levels): hypothesis test + confidence interval
- * parameter of interest = difference between two means (theoretical or simulation)
- * parameter of interest = difference between two medians (simulation only)
-* One numerical and one categorical variable (with more than 2 levels): hypothesis test only
- * compare means across several groups
- * no defined parameter of interest, ANOVA and pairwise tests (theoretical only)
-* Two categorical variables (each with only 2 levels): hypothesis test + confidence interval
- * parameter of interest = difference between two proportions (theoretical if success-failure condition met, simulation if not)
-* Two categorical variables (either one or both with more than 2 levels): hypothesis test only
- * compare proportions across several groups
- * no defined parameter of interest, Chi-square test only (theoretical if expected sample size condition met, simulation if not)
-
-Are correct interpretations and conclusions for all output provided? Note that this portion should be evaluated based on criteria stated earlier about which technique is required when). This includes some or all of
-
-* conclusions of hypothesis tests,
-* interpretations of p-values as conditional probabilities, and
-* interpretations of confidence intervals
-
-depending on the methods used. All interpretations must be in context of the data and the research question.
-
-Is whether or not results from hypothesis test and confidence interval agree stated? Or, if doing ANOVA or chi-square testing, did the author state that no other methods were applicable and hence there's nothing to compare?
+The only pair for which the null hypotheses is not rejected is High School --
+Junior College. Stated otherwise, the means of income in constant dollars for
+the High School degree and the Junior College Degree are equals, and every
+variation is due to chance.
 
 Conclusion
 ----------
@@ -287,6 +288,6 @@ Appendix
 
 Example of the data used in the research.
 
-```{r research_data_head, warning=FALSE}
-head(research_data, n=40L)
+```{r study_data_head, warning=FALSE}
+head(study_data, n=40L)
 ```
