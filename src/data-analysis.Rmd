@@ -41,7 +41,7 @@ personal interviewing (since 2002), and by telephone.
 The interviewees are individuals English and Spanish speaking persons 18 years of
 age or older, living in the United States. They are selected from metropolitan and
 rural areas. Multiple level of stratification for region, race, age, income and
-sex was employed to garantee a random sample.
+sex was employed to guarantee a random sample.
 
 The target sample size is of 1500 observations every year until 1994. Since 1994 the GSS
 has been administered to two samples in even-numbered years, each with a target
@@ -119,7 +119,7 @@ We can see that high school as the highest degree has nearly 50% percent of obse
 #### Family income in constant USD
 
 Family income in constant USD is a continuous numerical variable. We summarize
-it with mean, range and quartiles, and with a histogram (see Figure 1).
+it with mean, range and quantiles, and with a histogram (see Figure 1).
 ```{r family_income_summary, warning=FALSE}
 # Mean, range and quartiles for Family.Income.Constant.USD
 summary(study_data$Family.Income.Constant.USD)
@@ -127,7 +127,7 @@ summary(study_data$Family.Income.Constant.USD)
 
 We can see that the distribution is right skewed and unimodal, with 50% of observations
 in the 16,300-63,200 USD (constant dollar) range, and there is a maximum value
-of 179,000 USD. There are some clear outliers in the upper quartiles of the distribution.
+of 179,000 USD. There are some clear outliers in the upper quantiles of the distribution.
 
 There are 216 observations with missing income values. Filtering them out brings
 the number of observations to 1752. The sample size remains significant for the study.
@@ -157,7 +157,7 @@ The study want to establish if there is a statistical significant difference
 between the mean family income in constant dollars of United States resident
 grouped by the highest degree earned.
 
-In statistical inference terms, we test a null hypoteses ($H_{0}$) where the mean
+In statistical inference terms, we test a null hypotheses ($H_{0}$) where the mean
 family income in constant dollars is equal for all the highest degree groups,
 and an alternative hypotheses ($H_{A}$) where at least one pair of means are different
 from each other.
@@ -172,8 +172,8 @@ We could test the hypotheses doing a pairwise comparison of means across many gr
 But we could find a difference just by chance, even if there is no difference in
 the population.
 
-So we first use a method called **analysis of variance** (ANOVA) that uses a single
-hypotheses test to check whether the mean across many groups are equal.
+So we first use a method called **analysis of variance** (ANOVA) [[3](#openintro)]
+that uses a single hypotheses test to check whether the mean across many groups are equal.
 If we can reject the null hypotheses using ANOVA, then the results of pairwise
 comparison are more significant.
 
@@ -185,11 +185,11 @@ the larger the F will be and the stronger the evidence against the null hypothes
 ANOVA gives significant results if three conditions on the data are checked:
 
 1. **indipendence**: *Are data indipendent?* -- GSS data consist in a random sample
-   from less than 10% of the population and so they could be considered indipendent
+   from less than 10% of the population and so they could be considered independent
 2. **approximately normal**: *Have data a normal distribution?* -- normal probability
    plots for each group are shown in Figure 2, they visualize the difference among
    observations distribution and standard distribution; we can see that there is
-   some deviation from normality in each group, especially in the upper quartiles
+   some deviation from normality in each group, especially in the upper quantiles
 
 ```{r qqplot_degree, warning=FALSE, fig.width=11, fig.height=2.5, fig.cap='Check data normality in family income grouped by degree'}
 # Five graphs in a row
@@ -204,8 +204,8 @@ for (i in 1:5) {
 
 3. **constant variance**: *Is the variability across group about equal?* -- we can
    check the variability with the boxplot in Figure 1; we can see that the total
-   range and the interquartile range of the groups are different, with the lowest
-   variability in the Less than high school group and the highest variabilty in
+   range and the interquantile range of the groups are different, with the lowest
+   variability in the Less than high school group and the highest variability in
    the Graduate group
 
 The conditions on normality and constant variance are not fully respected.
@@ -223,18 +223,20 @@ This mean that the probability of observing a F value of 121 or higher, if the n
 hypotheses were true, is very low.
 
 So we can reject the null hypotheses and we can say that the average income
-in constant dollar varies across some (or all) groups of degree in a statistically
+in constant dollar varies across some (or all) groups in a statistically
 significant way.
 
-We can do a pairwise comparison to find out which groups have different means.
+Since the null hypotheses has been rejected, we can do a pairwise comparison to
+find out which groups have different means.
 
 For every possible pair of groups (10 pairs), we use a t test statistic to
-confirm or reject the null hypotheses that the means of the two groups are equal 
-($H_{0}: \mu_{Group1} = \mu_{Group2}$) or the alternative hypoteses that they are
-different ($H_{A}: \mu_{Group1} \neq \mu_{Group2}$). The significance level
-used is more stringent to avoid the increase of Type I error rate (rejecting
-a true null hypotheses). This mean that to reject a null hypotheses the p-value
-has to be much lower.
+confirm the null hypotheses that the means of the two groups are equal
+($H_{0}: \mu_{Group1} = \mu_{Group2}$) or the alternative hypotheses that they are
+different ($H_{A}: \mu_{Group1} \neq \mu_{Group2}$). To avoid the increase of
+Type I error rate (rejecting a true null hypotheses), we apply a *Bonferroni*
+correction to the p-values which are multiplied by the number of comparison.
+With this correction, the difference of the means has to be bigger to reject
+the null hypotheses.
 
 ```{r pairwise, warning=FALSE}
 # Pairwise t test for the mean income in constanst dollars grouped by degree
@@ -242,14 +244,13 @@ has to be much lower.
 pairwise.t.test(study_data$Family.Income.Constant.USD, study_data$Highest.Degree,  p.adj="bonferroni")
 ```
 
-We can see tha for nine group pairs the p-value is lower than the significance
-level and so the null hypothese is rejected: the difference of their means is
-statistically significant.
+We can see that for nine group pairs the p-value is lower than the significance
+level of 0.05 and so the null hypotheses are rejected: the difference of the means
+of these nine groups is statistically significant.
 
-The only pair for which the null hypotheses is not rejected is High School --
-Junior College. Stated otherwise, the means of income in constant dollars for
-the High School degree and the Junior College Degree are equals, and every
-variation is due to chance.
+The null hypotheses is not rejected for the pair high school--junior college.
+The difference of the means of this pair is not statistically significant
+and it is due to chance.
 
 Conclusion
 ----------
@@ -268,12 +269,12 @@ generalized to all United States residents.
 
 There are some conditions not meet in the normality and constant variance of the
 data and so the results could not be considered definitive. Further analysis
-with more sofisticated statistical method could be made to obviate to the problem
+with more sophisticated statistical method could be made to obviate to the problem
 in the data.
 
 Outliers in groups. Probably other variables could explain income.
 
-Moreover it could be interesting doing the study for various year in the GSS survery
+Moreover it could be interesting doing the study for various year in the GSS survey
 to find out if the difference in the mean evolved during the years.
 
 
@@ -313,6 +314,9 @@ Persistent URL: http://doi.org/10.3886/ICPSR34802.v1
 2. <a name="gssfaq"/>General Social Survey (GSS) FAQ.
    URL: <http://publicdata.norc.org:41000/gssbeta/faqs.html>.
    Accessed 03/30/2014
+3. <a name="openintro"/>Comparing many means with ANOVA. In Diez M David, Barr D
+   Christopher, Çetinkaya-Rundel Mine (2012), *OpenIntro Statistics, Second Edition*,
+   URL: <http://www.openintro.org/stat/textbook.php>.
 
 Appendix
 --------
