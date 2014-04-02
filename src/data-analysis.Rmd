@@ -154,12 +154,12 @@ Inference
 ---------
 
 The study want to establish if there is a statistical significant difference
-between the mean income in constant dollars of family of United States resident,
-when they have a different degree.
+between the mean family income in constant dollars of United States resident
+grouped by the highest degree earned.
 
-Stated more precisely, we formulate a null hypoteses ($H_{0}$) that the mean
-family income in constant dollars is equal for all the degree groups, and an
-alternative hypotheses ($H_{A}$) that at least one pair of means are different
+In statistical inference terms, we test a null hypoteses ($H_{0}$) where the mean
+family income in constant dollars is equal for all the highest degree groups,
+and an alternative hypotheses ($H_{A}$) where at least one pair of means are different
 from each other.
 
 $H_{0}: \mu_{LHS} = \mu_{HS} = \mu_{JC} = \mu_{B} = \mu_{G}$
@@ -168,21 +168,28 @@ $H_{A}: the\ average\ income\ in\ constant\ dollar\ (\mu_{i})\ varies\ across\ s
 
 ### ANOVA and its conditions
 
-We could do a pairwise comparison to compare mean across many groups. But we could
-find a difference just by chance, even if there is no difference in the populations.
+We could test the hypotheses doing a pairwise comparison of means across many groups.
+But we could find a difference just by chance, even if there is no difference in
+the population.
 
-So we employ a method called **analysis of variance** (ANOVA) that uses a single
+So we first use a method called **analysis of variance** (ANOVA) that uses a single
 hypotheses test to check whether the mean across many groups are equal.
+If we can reject the null hypotheses using ANOVA, then the results of pairwise
+comparison are more significant.
 
-ANOVA finds if the variability in the sample means is so large that it seems
-unlikely to be from chance alone. ANOVA uses a test statistic F, which represents
-a standardized ratio of variability in the sample means relative to the variability
-within the group. The larger the observed variability in the sample means relative
-to the within group observations, the larger the F will be and the stronger the
-evidence against the null hypotheses.
+ANOVA uses F test statistic, which represents a standardized ratio of variability
+in the sample means relative to the variability within the group. The larger the
+observed variability in the sample means relative to the within group observations,
+the larger the F will be and the stronger the evidence against the null hypotheses.
 
-If we can reject the null hypotheses, we could do a pairwise comparison to find
-out which of the groups have different means.
+ANOVA gives significant results if three conditions on the data are checked:
+
+1. **indipendence**: *Are data indipendent?* -- GSS data consist in a random sample
+   from less than 10% of the population and so they could be considered indipendent
+2. **approximately normal**: *Have data a normal distribution?* -- normal probability
+   plots for each group are shown in Figure 2, they visualize the difference among
+   observations distribution and standard distribution; we can see that there is
+   some deviation from normality in each group, especially in the upper quartiles
 
 ```{r qqplot_degree, warning=FALSE, fig.width=11, fig.height=2.5, fig.cap='Check data normality in family income grouped by degree'}
 # Five graphs in a row
@@ -195,22 +202,16 @@ for (i in 1:5) {
 }
 ```
 
-Before performing ANOVA we must check three conditions on the data:
-
-* **indipendence**: *Are data indipendent?* -- the data consist in a random sample
-  from less than 10% of the population and so they could be considered indipendent
-* **approximately normal**: *Have data a normal distribution?* -- the normal
-  probability plot for each group are shown in Figure 2; there is some deviation
-  from normality especially in the upper quartiles
-* **constant variance**: *Is the variability across group about equal?* -- we can
-  check the variability with the boxplot in Figure 1; we can see that the variability
-  is not similar across groups with the Lt High School with the lower variability
-  and Graduate with the highest
+3. **constant variance**: *Is the variability across group about equal?* -- we can
+   check the variability with the boxplot in Figure 1; we can see that the total
+   range and the interquartile range of the groups are different, with the lowest
+   variability in the Less than high school group and the highest variabilty in
+   the Graduate group
 
 The conditions on normality and constant variance are not fully respected.
-We compute ANOVA nonetheless, but we report this uncertainty in the results.
+We use ANOVA in our hypotheses test, but we report the uncertainty in the results.
 
-### Inference computation
+### Computation
 
 ```{r anova, warning=FALSE}
 # ANOVA for the mean income in constanst dollars grouped by degree
@@ -218,13 +219,14 @@ anova(lm(Family.Income.Constant.USD ~ Highest.Degree, data=study_data))
 ```
 
 ANOVA reports a F test statistic of 121 and a p-value of approximately zero.
-This mean that the probability of observing a F of 121 or higher, if the null
+This mean that the probability of observing a F value of 121 or higher, if the null
 hypotheses were true, is very low.
+
 So we can reject the null hypotheses and we can say that the average income
 in constant dollar varies across some (or all) groups of degree in a statistically
 significant way.
 
-Now we can do a pairwise comparison to find out which groups have different means.
+We can do a pairwise comparison to find out which groups have different means.
 
 For every possible pair of groups (10 pairs), we use a t test statistic to
 confirm or reject the null hypotheses that the means of the two groups are equal 
