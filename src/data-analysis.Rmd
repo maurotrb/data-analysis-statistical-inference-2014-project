@@ -16,13 +16,13 @@ reload.project()
 Introduction
 ------------
 
-The project study the relationship between the higher degree obtained by United
+The project study the relationship between the highest degree earned by United
 States residents and their family income in constant dollars.
 
 Access to education and its funding is the subject of many discussions on social
 mobility and redistribution of income. The study explores data from a long running
-social survey to verify one of the main topic of these discussions: if more education
-is related to a higher personal and family income.
+social survey to verify one of the main topic of these discussions: if family
+income is related to education level.
 
 Data
 ----
@@ -62,10 +62,11 @@ findings could be **generalized** to the entire US residents population.
 
 The study uses two variables chosen from those collected by GSS survey:
 
-* **Highest Degree**: it is a ordinal categorical variable collected with the question
+* **Highest degree**: it is a ordinal categorical variable collected with the question
   "Did you ever get a high school diploma or a GED certificate?" -- its levels are
-  Lt High School, High School, Junior College, Bachelor, Graduate
-* **Family Income in Constant Dollars**: it is a continuous numerical variable
+  *Less than high school*, *High school*, *Associate/Junior College*, *Bachelor's*,
+  *Graduate*
+* **Family income in constant US dollars**: it is a continuous numerical variable
   and it measure the inflation-adjusted family income
 
 Exploratory data analysis
@@ -73,7 +74,7 @@ Exploratory data analysis
 
 ### Data preparation
 
-Before exploring the data we create a dataset with the two variables of interest
+Before exploring the data, we create a dataset with the two variables of interest
 for the year 2012 and we give them a clearer label. We obtain a sample size of
 1,974 observations.
 
@@ -102,7 +103,9 @@ par(mar=c(6,2,3,4))
 boxplot(study_data$Family.Income.Constant.USD ~ study_data$Highest.Degree, las= 2, main="Family Income in constant USD by Degree")
 ```
 
-**Highest degree** is a categorical variable. We summarize it with a contingency table,
+#### Highest degree
+
+Highest degree is a categorical variable. We summarize it with a contingency table,
 a frequency table and a barplot (see Figure 1).
 ```{r highest_degree_summary, warning=FALSE}
 # Contingency table for Highest.Degree
@@ -111,9 +114,11 @@ table(study_data$Highest.Degree)
 prop.table(table(study_data$Highest.Degree))
 ```
 
-We can see that high school degree is prevalent with nearly 50% percent of observations.
+We can see that high school as the highest degree has nearly 50% percent of observations.
 
-**Family income in constant USD** is a continuous numerical variable. We summarize
+#### Family income in constant USD
+
+Family income in constant USD is a continuous numerical variable. We summarize
 it with mean, range and quartiles, and with a histogram (see Figure 1).
 ```{r family_income_summary, warning=FALSE}
 # Mean, range and quartiles for Family.Income.Constant.USD
@@ -122,10 +127,9 @@ summary(study_data$Family.Income.Constant.USD)
 
 We can see that the distribution is right skewed and unimodal, with 50% of observations
 in the 16,300-63,200 USD (constant dollar) range, and there is a maximum value
-of 179,000 USD. There are some clear outliers in the upper range of the
-distribution.
+of 179,000 USD. There are some clear outliers in the upper quartiles of the distribution.
 
-Moreover, there are 216 observations with missing income values. Filtering them out brings
+There are 216 observations with missing income values. Filtering them out brings
 the number of observations to 1752. The sample size remains significant for the study.
 ```{r study_data_comp_observations, warning=FALSE}
 # Filter NAs
@@ -136,12 +140,14 @@ nrow(study_data)
 table(study_data$Highest.Degree)
 ```
 
-Finally, we explore the **relationship among family income and highest degree**
+#### Relationship among family income and highest degree
+
+Finally, we explore the relationship among family income and highest degree
 (see Figure 1).
 
-We can see that exists a positive association between family income and higher degree.
-But the wider interquantile range in the college degree categories and the presence
-of outliers in the high school degree ones, means that such a relationship is
+We can see that exists a positive association, but the wider interquantile range
+in the college degree groups and the presence of outliers in the high school
+degree and less than high school ones, means that such a relationship is
 not strong and that family income could be associated with other variables.
 
 Inference
@@ -246,6 +252,29 @@ variation is due to chance.
 Conclusion
 ----------
 
+The study wanted to answer to the question if a higher family income is related
+to an higher education level.
+
+Using statistical inference methods, we find that this is the case.
+The mean family income is significantly different between those who have
+lt high school, high school, junior college, bachelor, graduate.
+The only two groups that don't have significant difference are high school and
+junior college.
+
+The data used are from GSS a long running social research and it could be
+generalized to all United States residents.
+
+There are some conditions not meet in the normality and constant variance of the
+data and so the results could not be considered definitive. Further analysis
+with more sofisticated statistical method could be made to obviate to the problem
+in the data.
+
+Outliers in groups. Probably other variables could explain income.
+
+Moreover it could be interesting doing the study for various year in the GSS survery
+to find out if the difference in the mean evolved during the years.
+
+
 #### Question
 Write a brief summary of your findings without repeating your statements from earlier. Include a discussion of what you have learned about your research question and the data you collected, and include ideas for possible future research.
 
@@ -286,8 +315,9 @@ Persistent URL: http://doi.org/10.3886/ICPSR34802.v1
 Appendix
 --------
 
-Example of the data used in the research.
+Example of the data used in the study.
 
 ```{r study_data_head, warning=FALSE}
-head(study_data, n=40L)
+# First 50 observations
+head(study_data, n=50L)
 ```
