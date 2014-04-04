@@ -16,7 +16,7 @@ reload.project()
 Introduction
 ------------
 
-The project study the relationship between the highest degree earned by United
+The project studies the relationship between the highest degree earned by United
 States residents and their family income in constant dollars.
 
 Access to education and its funding is the subject of many discussions on social
@@ -255,7 +255,7 @@ and it is due to chance.
 Conclusion
 ----------
 
-The study establish a positive correlation among the highest degree earned
+The study establishes a positive correlation among the highest degree earned
 by United States residents and their family income in constant dollars.
 
 We used data from the 2012 edition of General Social Survey (GSS) so that
