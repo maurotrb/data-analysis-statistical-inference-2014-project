@@ -146,9 +146,9 @@ Finally, we explore the relationship among family income and highest degree
 (see Figure 1).
 
 We can see that exists a positive association, but the wider interquantile range
-in the college degree groups and the presence of outliers in the high school
-degree and less than high school ones, means that such a relationship is
-not strong and that family income could be associated with other variables.
+in the college groups and the presence of outliers in the high school and less
+than high school groups, means that such a relationship is not strong and that
+family income could be associated with other variables.
 
 Inference
 ---------
@@ -248,45 +248,42 @@ We can see that for nine group pairs the p-value is lower than the significance
 level of 0.05 and so the null hypotheses are rejected: the difference of the means
 of these nine groups is statistically significant.
 
-The null hypotheses is not rejected for the pair high school--junior college.
+The null hypotheses is not rejected for the pair High school--Junior college.
 The difference of the means of this pair is not statistically significant
 and it is due to chance.
 
 Conclusion
 ----------
 
-The study wanted to answer to the question if a higher family income is related
-to an higher education level.
+The study establish a positive correlation among the highest degree earned
+by United States residents and their family income in constant dollars.
 
-Using statistical inference methods, we find that this is the case.
-The mean family income is significantly different between those who have
-lt high school, high school, junior college, bachelor, graduate.
-The only two groups that don't have significant difference are high school and
-junior college.
+We used data from the 2012 edition of General Social Survey (GSS) so that
+we could generalize our results to the entire United States residents population.
+We grouped the family income in constants dollars by the highest degree earned
+by the interviewees (less than high school, high school, junior college,
+bachelor's and graduate), and by visually exploring the data we noticed a positive
+correlation among the two variables.
 
-The data used are from GSS a long running social research and it could be
-generalized to all United States residents.
+We tested our hypotheses with ANOVA and pair comparisons and we find out that
+the mean incomes of the groups are significantly different from one another.
+The only exception being among high school degree and junior college degree: it
+seems that junior college degree were not better, in term of income, than a
+high school one.
 
-There are some conditions not meet in the normality and constant variance of the
-data and so the results could not be considered definitive. Further analysis
-with more sophisticated statistical method could be made to obviate to the problem
-in the data.
+However, these results could not be considered definitive.
 
-Outliers in groups. Probably other variables could explain income.
+We noticed in the data exploration a wide range of income and the presence of
+outliers in many of the groups. This mean that other variables could be strongly
+correlated with income. Moreover some of the conditions for the statistical
+inference methods used were not fully respected, and so we have to be cautious
+in interpreting the results.
 
-Moreover it could be interesting doing the study for various year in the GSS survey
-to find out if the difference in the mean evolved during the years.
+Future research could address these shortcomings by analyzing the interaction
+of other variables and by using more sophisticated statistical techniques.
 
-
-#### Question
-Write a brief summary of your findings without repeating your statements from earlier. Include a discussion of what you have learned about your research question and the data you collected, and include ideas for possible future research.
-
-#### Evaluation
-Is there a brief summary of findings that does not repeat previous statements?
-
-Is a discussion of what was learned about the research question provided?
-
-Are ideas for possible future research and/or discussion of additional synthesis or possible shortcomings of study provided?
+It could be even interesting repeating the study for other years covered by
+GSS survey (1972--2012) and compare the results.
 
 References
 ----------
