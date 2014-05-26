@@ -6,3 +6,4 @@ load_libraries: off
 libraries: reshape, plyr, ggplot2, stringr, lubridate
 as_factors: off
 data_tables: off
+recursive_loading: off
