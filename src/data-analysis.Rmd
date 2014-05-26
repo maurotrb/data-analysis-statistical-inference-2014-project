@@ -1,14 +1,15 @@
-Data Analysis Project
-=====================
+Data Project: Relationship between Degree Earned and Family Income
+==================================================================
 
-Project preparation with ProjectTemplate [[1](#projecttemplate)].
+__Mauro Taraborelli__ -- _mauro@maurotaraborelli.com_
+
 ``` {r knitr_options, echo=FALSE, warning=FALSE}
 require(knitr)
 opts_knit$set(root.dir="..")
 opts_chunk$set(fig.path="../graphs/analysis-")
 ```
 
-```{r load_project, echo=FALSE, warning=FALSE}
+```{r load_project, echo=FALSE, warning=FALSE, include=FALSE}
 require(ProjectTemplate)
 reload.project()
 ```
@@ -47,7 +48,7 @@ The target sample size is of 1500 observations every year until 1994. Since 1994
 has been administered to two samples in even-numbered years, each with a target
 sample size of 1500.
 
-For more information please refer to GSS FAQ [[2](#gssfaq)].
+For more information please refer to GSS FAQ [[1](#gssfaq)].
 
 ### Study characteristics
 
@@ -172,7 +173,7 @@ We could test the hypotheses doing a pairwise comparison of means across many gr
 But we could find a difference just by chance, even if there is no difference in
 the population.
 
-So we first use a method called **analysis of variance** (ANOVA) [[3](#openintro)]
+So we first use a method called **analysis of variance** (ANOVA) [[2](#openintro)]
 that uses a single hypotheses test to check whether the mean across many groups are equal.
 If we can reject the null hypotheses using ANOVA, then the results of pairwise
 comparison are more significant.
@@ -306,12 +307,10 @@ Persistent URL: http://doi.org/10.3886/ICPSR34802.v1
 
 ### Other references
 
-1. <a name="projecttemplate"/>ProjectTemplate, a system for automating the thoughtless
-   parts of a data analysis project. URL: <http://projecttemplate.net/>.
-2. <a name="gssfaq"/>General Social Survey (GSS) FAQ.
+1. <a name="gssfaq"/>General Social Survey (GSS) FAQ.
    URL: <http://publicdata.norc.org:41000/gssbeta/faqs.html>.
    Accessed 03/30/2014
-3. <a name="openintro"/>Comparing many means with ANOVA. In Diez M David, Barr D
+2. <a name="openintro"/>Comparing many means with ANOVA. In Diez M David, Barr D
    Christopher, Çetinkaya-Rundel Mine (2012), *OpenIntro Statistics, Second Edition*,
    URL: <http://www.openintro.org/stat/textbook.php>.
 
@@ -324,3 +323,40 @@ Example of the data used in the study.
 # First 50 observations
 head(study_data, n=50L)
 ```
+
+Copyright
+---------
+
+Copyright (c) 2014 Mauro Taraborelli. All rights reserved.
+
+All __text__ is under the Creative Commons Attribution-ShareAlike 4.0 International License.
+To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/.
+
+All __code__ is under the MIT license:
+
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions
+    are met:
+    
+    1. Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+    
+    2. Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+    
+    3. Neither the name of the author nor the names of his contributors
+       may be used to endorse or promote products derived from this software
+       without specific prior written permission.
+    
+    THIS SOFTWARE IS PROVIDED BY THE CONTRIBUTORS ``AS IS'' AND ANY EXPRESS
+    OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+    WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+    DISCLAIMED.  IN NO EVENT SHALL THE AUTHORS OR CONTRIBUTORS BE LIABLE FOR
+    ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+    DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+    OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+    STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+    ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGE.
